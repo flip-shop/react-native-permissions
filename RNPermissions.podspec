@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source       = { :git => package["repository"]["url"], :tag => s.version }
-  s.source_files = "ios/*.{h,mm}"
+  s.source_files = "ios/*.{h,mm,swift}"
   # s.frameworks = <frameworks>
   # s.resource_bundles = <resource_bundles>
 

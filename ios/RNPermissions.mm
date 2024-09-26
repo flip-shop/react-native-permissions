@@ -318,6 +318,38 @@ RCT_EXPORT_METHOD(check:(NSString *)permission
   resolve(@(handler != nil && [self boolForStatus:[handler currentStatus]]));
 }
 
+RCT_EXPORT_METHOD(checkWithStatus:(NSString *)permission
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject) {
+  id<RNPermissionHandler> handler = [self handlerForPermission:permission];
+  if (handler == nil) {
+    resolve([self stringForStatus: RNPermissionStatusNotAvailable]);
+  }
+  resolve([self stringForStatus:[handler currentStatus]]);
+}
+
+RCT_EXPORT_METHOD(requestLimitedContactsModal:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject) {
+#if __has_include("RNPermissionHandlerContacts.h")
+  RNPermissionHandlerContacts *handler = [RNPermissionHandlerContacts new];
+  if (handler == nil) {
+    resolve([self stringForStatus:RNPermissionStatusNotAvailable]);
+  } else {
+    NSString *lockId = [self lockHandler:handler];
+
+    [handler requestLimitedContactsModal:^(NSArray<NSString *> *contacts) {
+      resolve(contacts);
+      [self unlockHandler:lockId];
+    } rejecter:^(NSError *error) {
+      reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription, error);
+      [self unlockHandler:lockId];
+    }];
+  }
+#else
+  reject(@"notifications_pod_missing", @"Contacts permission pod is missing", nil);
+#endif
+}
+
 RCT_EXPORT_METHOD(request:(NSString *)permission
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject) {

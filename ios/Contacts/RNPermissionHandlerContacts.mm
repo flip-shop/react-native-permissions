@@ -1,6 +1,8 @@
 #import "RNPermissionHandlerContacts.h"
 
 #import <Contacts/Contacts.h>
+#import <RNPermissions-Swift.h>
+#import <React/RCTUtils.h>
 
 @implementation RNPermissionHandlerContacts
 
@@ -37,6 +39,26 @@
       resolve([self currentStatus]);
     }
   }];
+}
+
+- (void)requestLimitedContactsModal:(void (^ _Nonnull)(NSArray<NSString *> * _Nonnull))resolve
+                           rejecter:(void (__unused ^ _Nonnull)(NSError * _Nonnull))reject {
+    if (@available(iOS 18.0, *)) {
+      CNAuthorizationStatus entityType = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
+      if (entityType == CNAuthorizationStatusLimited) {
+        ContactAccessPicker *picker = [[ContactAccessPicker alloc] initWithHandler:^(NSArray<NSString *> * _Nonnull contacts) {
+          resolve(contacts);
+        }];
+        UIViewController *viewController = [picker viewController];
+        viewController.modalPresentationStyle = UIModalPresentationCurrentContext;
+        
+        UIWindow *window = RCTKeyWindow();
+        [window.rootViewController presentViewController:viewController animated:YES completion:nil];
+      } else {
+        NSError *error = [NSError errorWithDomain:@"com.zoontek.rnpermissions" code:CNAuthorizationStatusNotDetermined userInfo:nil];
+        reject(error);
+      }
+    }
 }
 
 @end

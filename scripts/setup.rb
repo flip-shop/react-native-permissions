@@ -48,8 +48,8 @@ def setup_permissions(config)
   end
 
   source_files = [
-    '"ios/*.{h,mm}"',
-    *directories.map { |name| "\"ios/#{name}/*.{h,mm}\"" }
+    '"ios/*.{h,mm,swift}"',
+    *directories.map { |name| "\"ios/#{name}/*.{h,mm,swift}\"" }
   ].join(', ')
 
   frameworks = directories
