@@ -66,4 +66,12 @@ class RNPermissionsModule(reactContext: ReactApplicationContext?) :
   override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray): Boolean {
     return RNPermissionsModuleImpl.onRequestPermissionsResult(reactApplicationContext, callbacks, requestCode, grantResults)
   }
+
+  override fun checkWithStatus(permission: String, promise: Promise) {
+    RNPermissionsModuleImpl.checkWithStatus(reactApplicationContext, permission, promise)
+  }
+
+  override fun requestLimitedContactsModal(promise: Promise) {
+    RNPermissionsModuleImpl.requestLimitedContactsModal(reactApplicationContext, promise)
+  }
 }

@@ -10,6 +10,8 @@ import type {
 
 export type Contract = {
   check(permission: Permission): Promise<boolean>;
+  checkWithStatus(permission: Permission): Promise<PermissionStatus>;
+  requestLimitedContactsModal(): Promise<string[]>
   checkLocationAccuracy(): Promise<LocationAccuracy>;
   checkMultiple<P extends Permission[]>(permissions: P): Promise<Record<P[number], boolean>>;
   checkNotifications(): Promise<{granted: boolean; settings: NotificationSettings}>;

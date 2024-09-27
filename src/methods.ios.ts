@@ -14,6 +14,14 @@ const check: Contract['check'] = (permission) => {
   return NativeModule.check(permission);
 };
 
+const checkWithStatus: Contract['checkWithStatus'] = (permission) => {
+  return NativeModule.checkWithStatus(permission) as ReturnType<Contract['request']>
+}
+
+const requestLimitedContactsModal: Contract['requestLimitedContactsModal'] = async () => {
+  return NativeModule.requestLimitedContactsModal() as ReturnType<Contract['requestLimitedContactsModal']>;
+};
+
 const request: Contract['request'] = async (permission) => {
   return NativeModule.request(permission) as ReturnType<Contract['request']>;
 };
@@ -67,4 +75,6 @@ export const methods: Contract = {
   requestLocationAccuracy,
   requestMultiple,
   requestNotifications,
+  checkWithStatus,
+  requestLimitedContactsModal
 };

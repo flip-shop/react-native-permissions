@@ -49,6 +49,21 @@ object RNPermissionsModuleImpl {
     promise.resolve(context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED)
   }
 
+  fun checkWithStatus(reactContext: ReactApplicationContext, permission: String, promise: Promise){
+    val context = reactContext.baseContext
+    val permission = context.checkSelfPermission(permission)
+    val status = when {
+      permission == PackageManager.PERMISSION_GRANTED -> GRANTED
+      permission == PackageManager.PERMISSION_DENIED -> DENIED
+      else -> BLOCKED
+    }
+    promise.resolve(status)
+  }
+
+  fun requestLimitedContactsModal(reactContext: ReactApplicationContext, promise: Promise) {
+    promise.reject("Permissions:requestLimitedContactsModal", "requestLimitedContactsModal is not supported on Android")
+  }
+
   // Only used on Android < 13 (the POST_NOTIFICATIONS runtime permission isn't available)
   fun checkNotifications(reactContext: ReactApplicationContext, promise: Promise) {
     val granted = NotificationManagerCompat.from(reactContext).areNotificationsEnabled()

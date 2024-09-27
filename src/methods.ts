@@ -12,6 +12,14 @@ const check: Contract['check'] = async () => {
   return false;
 };
 
+const checkWithStatus: Contract['request'] = async () => {
+  return RESULTS.BLOCKED;
+};
+
+const requestLimitedContactsModal: Contract['requestLimitedContactsModal'] = async () => {
+  return []; //Not supported on web
+};
+
 const request: Contract['request'] = async () => {
   return RESULTS.BLOCKED;
 };
@@ -55,4 +63,6 @@ export const methods: Contract = {
   requestLocationAccuracy,
   requestMultiple,
   requestNotifications,
+  checkWithStatus,
+  requestLimitedContactsModal
 };

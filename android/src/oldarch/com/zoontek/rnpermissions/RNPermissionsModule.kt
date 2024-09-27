@@ -74,6 +74,16 @@ class RNPermissionsModule(reactContext: ReactApplicationContext?) :
     RNPermissionsModuleImpl.openPhotoPicker(promise)
   }
 
+  @ReactMethod
+  fun checkWithStatus(permission: String, promise: Promise) {
+    RNPermissionsModuleImpl.checkWithStatus(reactApplicationContext, permission, promise)
+  }
+
+  @ReactMethod
+  fun requestLimitedContactsModal(promise: Promise) {
+    RNPermissionsModuleImpl.requestLimitedContactsModal(reactApplicationContext, promise)
+  }
+
   override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray): Boolean {
     return RNPermissionsModuleImpl.onRequestPermissionsResult(reactApplicationContext, callbacks, requestCode, grantResults)
   }

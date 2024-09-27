@@ -3,6 +3,8 @@ import {TurboModuleRegistry} from 'react-native';
 
 export interface Spec extends TurboModule {
   check(permission: string): Promise<boolean>;
+  checkWithStatus(permission: string): Promise<string>;
+  requestLimitedContactsModal(): Promise<string[]>;
   checkLocationAccuracy(): Promise<string>;
   checkMultiple(permissions: string[]): Promise<Object>;
   checkNotifications(): Promise<{granted: boolean; settings: Object}>;

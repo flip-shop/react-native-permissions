@@ -8,6 +8,8 @@ export {RESULTS} from './results';
 export * from './types';
 
 export const check = methods.check;
+export const checkWithStatus = methods.checkWithStatus
+export const requestLimitedContactsModal = methods.requestLimitedContactsModal
 export const checkLocationAccuracy = methods.checkLocationAccuracy;
 export const checkMultiple = methods.checkMultiple;
 export const checkNotifications = methods.checkNotifications;
@@ -23,6 +25,8 @@ export default {
   RESULTS,
 
   check,
+  checkWithStatus,
+  requestLimitedContactsModal,
   checkLocationAccuracy,
   checkMultiple,
   checkNotifications,
