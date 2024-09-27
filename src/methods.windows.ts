@@ -29,6 +29,14 @@ const request: Contract['request'] = (permission) => {
   return NativeModule.Request(permission);
 };
 
+const checkWithStatus: Contract['checkWithStatus'] = async () => {
+  return 'granted';
+};
+
+const requestLimitedContactsModal: Contract['requestLimitedContactsModal'] = async () => {
+  return []; //Not supported on windows
+};
+
 const checkNotifications: Contract['checkNotifications'] = async () => {
   const status = await NativeModule.CheckNotifications();
   return {granted: status === RESULTS.GRANTED, settings: {}};
@@ -70,4 +78,6 @@ export const methods: Contract = {
   requestLocationAccuracy,
   requestMultiple,
   requestNotifications,
+  checkWithStatus,
+  requestLimitedContactsModal,
 };

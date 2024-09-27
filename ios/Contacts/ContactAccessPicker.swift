@@ -14,7 +14,7 @@ import UIKit
     super.init()
     self.handler = { contacts in
       DispatchQueue.main.async {
-        self.viewController.dismiss(animated: true)
+        self.viewController.dismiss(animated: false)
       }
       handler(contacts)
     }
