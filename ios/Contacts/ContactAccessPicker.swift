@@ -7,19 +7,24 @@ import ContactsUI
 import SwiftUI
 import UIKit
 
-public class ContactAccessPicker: NSObject {
-  private let handler: ([String]) -> Void
+@available(iOS 18.0, *) public class ContactAccessPicker: NSObject {
+  private var handler: (([String]) -> Void)?
 
   @objc public init(handler: @escaping ([String]) -> Void) {
-    self.handler = handler
     super.init()
+    self.handler = { contacts in
+      DispatchQueue.main.async {
+        self.viewController.dismiss(animated: true)
+      }
+      handler(contacts)
+    }
   }
 
-  @available(iOS 18.0, *)
-  @objc public func viewController() -> UIViewController {
+  @objc public lazy var viewController: UIViewController = {
+    guard let handler else { return UIViewController() }
     let swiftUIView = ContactAccessPickerHostingView(handler)
     return UIHostingController(rootView: swiftUIView)
-  }
+  }()
 }
 
 @available(iOS 18.0, *) private struct ContactAccessPickerHostingView: View {

@@ -46,12 +46,13 @@
     if (@available(iOS 18.0, *)) {
       CNAuthorizationStatus entityType = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
       if (entityType == CNAuthorizationStatusLimited) {
-        ContactAccessPicker *picker = [[ContactAccessPicker alloc] initWithHandler:^(NSArray<NSString *> * _Nonnull contacts) {
+        ContactAccessPicker *picker = [[ContactAccessPicker alloc] initWithHandler:^(NSArray<NSString *> *contacts) {
           resolve(contacts);
         }];
-        UIViewController *viewController = [picker viewController];
-        viewController.modalPresentationStyle = UIModalPresentationCurrentContext;
-        
+        UIViewController *viewController = picker.viewController;
+        viewController.view.hidden = YES;
+        viewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
+
         UIWindow *window = RCTKeyWindow();
         [window.rootViewController presentViewController:viewController animated:YES completion:nil];
       } else {
