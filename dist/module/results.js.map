@@ -1,0 +1,1 @@
+{"version":3,"names":["RESULTS","Object","freeze","BLOCKED","DENIED","GRANTED","LIMITED"],"sourceRoot":"../../src","sources":["results.ts"],"mappings":";;AAAA,OAAO,MAAMA,OAAO,GAAGC,MAAM,CAACC,MAAM,CAAC;EACnCC,OAAO,EAAE,SAAS;EAClBC,MAAM,EAAE,QAAQ;EAChBC,OAAO,EAAE,SAAS;EAClBC,OAAO,EAAE;AACX,CAAU,CAAC","ignoreList":[]}
