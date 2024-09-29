@@ -12,23 +12,19 @@ import UIKit
 
   @objc public init(handler: @escaping ([String]) -> Void) {
     super.init()
-    self.handler = { contacts in
-      DispatchQueue.main.async {
-        self.viewController.dismiss(animated: false)
-      }
-      handler(contacts)
-    }
+    self.handler = handler
   }
 
   @objc public lazy var viewController: UIViewController = {
     guard let handler else { return UIViewController() }
     let swiftUIView = ContactAccessPickerHostingView(handler)
-    return UIHostingController(rootView: swiftUIView)
+    let controller = UIHostingController(rootView: swiftUIView)
+    controller.view.backgroundColor = .clear
+    return controller
   }()
 }
 
 @available(iOS 18.0, *) private struct ContactAccessPickerHostingView: View {
-  @State var presented = true
   let handler: ([String]) -> Void
 
   init(_ completionHandler: @escaping ([String]) -> Void) {
@@ -36,12 +32,12 @@ import UIKit
   }
 
   var body: some View {
-    Spacer()
-      .contactAccessPicker(isPresented: $presented, completionHandler: handler)
-      .onChange(of: presented) { newValue in
-        if newValue == false {
-          handler([])
-        }
+    Color.clear
+      .ignoresSafeArea(.all)
+      .contactAccessPicker(isPresented: .constant(true), completionHandler: handler)
+      .transaction { transaction in
+        transaction.disablesAnimations = true
+        transaction.animation = nil
       }
   }
 }

@@ -42,19 +42,21 @@
 }
 
 - (void)requestLimitedContactsModal:(void (^ _Nonnull)(NSArray<NSString *> * _Nonnull))resolve
-                           rejecter:(void (__unused ^ _Nonnull)(NSError * _Nonnull))reject {
+                           rejecter:(void (^ _Nonnull)(NSError * _Nonnull))reject {
     if (@available(iOS 18.0, *)) {
       CNAuthorizationStatus entityType = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
       if (entityType == CNAuthorizationStatusLimited) {
+        __weak UIWindow *window = RCTKeyWindow();
         ContactAccessPicker *picker = [[ContactAccessPicker alloc] initWithHandler:^(NSArray<NSString *> *contacts) {
+          dispatch_async(dispatch_get_main_queue(), ^{
+            [window.rootViewController dismissViewControllerAnimated:NO completion:nil];
+          });
           resolve(contacts);
         }];
         UIViewController *viewController = picker.viewController;
-        viewController.view.hidden = YES;
+        viewController.view.hidden = NO;
         viewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
-
-        UIWindow *window = RCTKeyWindow();
-        [window.rootViewController presentViewController:viewController animated:YES completion:nil];
+        [window.rootViewController presentViewController:viewController animated:NO completion:nil];
       } else {
         NSError *error = [NSError errorWithDomain:@"com.zoontek.rnpermissions" code:CNAuthorizationStatusNotDetermined userInfo:nil];
         reject(error);
